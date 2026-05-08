@@ -136,6 +136,7 @@ class WS_Paste_Cleaner_Public {
 		update_option( 'ws_paste_cleaner_stats', $stats + 1 );
 
 		wp_send_json_success( array( 'html' => $cleaned ) );
+		return;
 	}
 
 	/**
@@ -158,5 +159,6 @@ class WS_Paste_Cleaner_Public {
 		$cleaned = WS_Paste_Cleaner_Cleaner::clean_html( $html, $level );
 
 		wp_send_json_success( array( 'html' => $cleaned ) );
+		return;
 	}
 }

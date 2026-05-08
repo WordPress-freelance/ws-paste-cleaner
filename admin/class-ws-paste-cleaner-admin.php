@@ -156,6 +156,10 @@ class WS_Paste_Cleaner_Admin {
 	/**
 	 * Save plugin settings.
 	 *
+	 * Thin wrapper around process_settings(). The wp_safe_redirect()/exit
+	 * tail makes this method itself untestable, but process_settings() is
+	 * fully unit-testable on its own.
+	 *
 	 * @since 1.0.0
 	 */
 	public function save_settings() {
@@ -166,19 +170,7 @@ class WS_Paste_Cleaner_Admin {
 			wp_die( esc_html__( 'Access denied.', 'ws-paste-cleaner' ) );
 		}
 
-		$level = isset( $_POST['ws_paste_cleaner_level'] )
-			? sanitize_text_field( wp_unslash( $_POST['ws_paste_cleaner_level'] ) )
-			: 'moderate';
-
-		$allowed_levels = array( 'light', 'moderate', 'aggressive' );
-		if ( ! in_array( $level, $allowed_levels, true ) ) {
-			$level = 'moderate';
-		}
-
-		$auto = isset( $_POST['ws_paste_cleaner_auto'] ) ? 1 : 0;
-
-		update_option( 'ws_paste_cleaner_level', $level );
-		update_option( 'ws_paste_cleaner_auto', $auto );
+		$this->process_settings( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 		wp_safe_redirect(
 			add_query_arg(
@@ -187,6 +179,33 @@ class WS_Paste_Cleaner_Admin {
 			)
 		);
 		exit;
+	}
+
+	/**
+	 * Validate and persist settings from a POST-shaped array.
+	 *
+	 * Extracted from save_settings() to be unit-testable without exit().
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  array $post POST-like array (slashed values supported).
+	 * @return void
+	 */
+	public function process_settings( array $post ) {
+
+		$level = isset( $post['ws_paste_cleaner_level'] )
+			? sanitize_text_field( wp_unslash( $post['ws_paste_cleaner_level'] ) )
+			: 'moderate';
+
+		$allowed_levels = array( 'light', 'moderate', 'aggressive' );
+		if ( ! in_array( $level, $allowed_levels, true ) ) {
+			$level = 'moderate';
+		}
+
+		$auto = isset( $post['ws_paste_cleaner_auto'] ) ? 1 : 0;
+
+		update_option( 'ws_paste_cleaner_level', $level );
+		update_option( 'ws_paste_cleaner_auto', $auto );
 	}
 
 	/**

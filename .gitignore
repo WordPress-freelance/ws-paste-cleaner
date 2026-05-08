@@ -8,13 +8,18 @@
 *.bak
 *.orig
 
+# Composer
+/vendor/
+composer.lock
+
+# PHPUnit
+.phpunit.result.cache
+/coverage/
+
 # Build artefacts
 *.zip
 /build/
 /dist/
-
-# Composer (not used yet, but reserved)
-/vendor/
 
 # Node (not used)
 /node_modules/
