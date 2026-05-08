@@ -23,7 +23,8 @@ $saved = isset( $_GET['saved'] ) && '1' === $_GET['saved'];
 
 	<div class="ws-header">
 		<div class="ws-logo">
-			<img src="<?php echo esc_url( WS_PASTE_CLEANER_PLUGIN_URL . 'assets/logo.png' ); ?>" alt="WebStrategy" class="ws-logo-img">
+			<img src="<?php echo esc_url( WS_PASTE_CLEANER_PLUGIN_URL . 'assets/icon-128x128.png' ); ?>" alt="WS Paste Cleaner" class="ws-logo-img">
+			<span class="ws-title"><?php esc_html_e( 'WebStrategy', 'ws-paste-cleaner' ); ?></span>
 		</div>
 		<h1 class="ws-page-title">
 			<?php esc_html_e( 'WS Paste Cleaner', 'ws-paste-cleaner' ); ?>

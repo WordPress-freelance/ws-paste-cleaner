@@ -54,9 +54,10 @@
 }
 
 .ws-paste-cleaner-wrap .ws-logo-img {
-	width: auto;
-	height: 72px;
+	width: 48px;
+	height: 48px;
 	display: block;
+	border-radius: 10px;
 }
 
 .ws-paste-cleaner-wrap .ws-title {
