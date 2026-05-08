@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="'Inter', system-ui, sans-serif">
+
+  <!-- Backdrop dark -->
+  <rect width="1200" height="900" fill="#14121C"/>
+
+  <!-- Header -->
+  <g transform="translate(80, 60)">
+    <polygon points="0,28 14,0 28,28" fill="#7C5CBF"/>
+    <polygon points="14,28 28,4 42,28" fill="#9B8EC4"/>
+    <polygon points="28,28 42,0 56,28" fill="#7C5CBF" opacity="0.9"/>
+    <text x="72" y="24" fill="#F0EDE8" font-family="'Lora', Georgia, serif" font-size="18" font-weight="600">WebStrategy</text>
+
+    <text x="220" y="22" fill="#F0EDE8" font-family="'Lora', Georgia, serif" font-size="26" font-weight="600">Test zone</text>
+    <text x="358" y="22" fill="#9590A8" font-size="12" letter-spacing="2">PREVIEW BEFORE → AFTER</text>
+  </g>
+
+  <!-- Separator -->
+  <line x1="80" y1="108" x2="1120" y2="108" stroke="#2E2B38"/>
+
+  <!-- Card -->
+  <g transform="translate(80, 140)">
+    <rect width="1040" height="700" rx="12" fill="#1A1724" stroke="#2E2B38"/>
+
+    <!-- Header bar -->
+    <line x1="0" y1="56" x2="1040" y2="56" stroke="#2E2B38"/>
+    <!-- Star icon -->
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="none" stroke="#9B8EC4" stroke-width="1.6" stroke-linejoin="round" transform="translate(16, 18)"/>
+    <text x="46" y="36" fill="#F0EDE8" font-family="'Lora', Georgia, serif" font-size="14" font-weight="600">Test zone</text>
+
+    <text x="20" y="86" fill="#9590A8" font-size="13">Paste Word content below to preview how it will be cleaned.</text>
+
+    <!-- Two columns -->
+
+    <!-- Before column -->
+    <text x="20" y="124" fill="#C4BFDA" font-size="11" letter-spacing="1.5">WORD CONTENT (BEFORE)</text>
+    <rect x="20" y="134" width="490" height="420" rx="8" fill="#14121C" stroke="#2E2B38"/>
+    <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11" fill="#C4BFDA">
+      <text x="36" y="158"><tspan fill="#9590A8">&lt;!--[if</tspan> <tspan fill="#A899D4">gte mso 9</tspan><tspan fill="#9590A8">]&gt;</tspan></text>
+      <text x="36" y="178">  <tspan fill="#A899D4">&lt;w:WordDocument&gt;</tspan></text>
+      <text x="36" y="198">    <tspan fill="#A899D4">&lt;w:View&gt;</tspan>Print<tspan fill="#A899D4">&lt;/w:View&gt;</tspan></text>
+      <text x="36" y="218">  <tspan fill="#A899D4">&lt;/w:WordDocument&gt;</tspan></text>
+      <text x="36" y="238"><tspan fill="#9590A8">&lt;![endif]--&gt;</tspan></text>
+      <text x="36" y="266"><tspan fill="#A899D4">&lt;p</tspan> class=<tspan fill="#7C5CBF">"MsoNormal"</tspan></text>
+      <text x="36" y="282">    style=<tspan fill="#7C5CBF">"margin:0in;</tspan></text>
+      <text x="36" y="298">           <tspan fill="#7C5CBF">font-size:11pt;</tspan></text>
+      <text x="36" y="314">           <tspan fill="#7C5CBF">font-family:Calibri"</tspan><tspan fill="#A899D4">&gt;</tspan></text>
+      <text x="36" y="338">  <tspan fill="#A899D4">&lt;span</tspan> lang=<tspan fill="#7C5CBF">"EN-US"</tspan></text>
+      <text x="36" y="354">        style=<tspan fill="#7C5CBF">"font-weight:bold"</tspan><tspan fill="#A899D4">&gt;</tspan></text>
+      <text x="36" y="378">    Hello World</text>
+      <text x="36" y="402">  <tspan fill="#A899D4">&lt;/span&gt;</tspan></text>
+      <text x="36" y="422">  <tspan fill="#A899D4">&lt;o:p</tspan> /<tspan fill="#A899D4">&gt;</tspan></text>
+      <text x="36" y="442"><tspan fill="#A899D4">&lt;/p&gt;</tspan></text>
+      <text x="36" y="478"><tspan fill="#A899D4">&lt;p</tspan> class=<tspan fill="#7C5CBF">"MsoNormal"</tspan><tspan fill="#A899D4">&gt;</tspan></text>
+      <text x="36" y="498">  Lorem ipsum dolor</text>
+      <text x="36" y="514">  <tspan fill="#A899D4">&lt;o:p&gt;&lt;/o:p&gt;</tspan></text>
+      <text x="36" y="534"><tspan fill="#A899D4">&lt;/p&gt;</tspan></text>
+    </g>
+
+    <!-- Arrow -->
+    <g transform="translate(525, 340)">
+      <circle cx="0" cy="0" r="22" fill="#7C5CBF"/>
+      <path d="M-8 0 L 8 0 M 4 -5 L 8 0 L 4 5" stroke="#F0EDE8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+
+    <!-- After column -->
+    <text x="555" y="124" fill="#C4BFDA" font-size="11" letter-spacing="1.5">CLEANED RESULT (AFTER)</text>
+    <rect x="555" y="134" width="465" height="420" rx="8" fill="#14121C" stroke="#7C5CBF"/>
+    <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" fill="#C4BFDA">
+      <text x="571" y="172"><tspan fill="#A899D4">&lt;p&gt;</tspan>
+        <tspan fill="#A899D4">&lt;strong&gt;</tspan>Hello World<tspan fill="#A899D4">&lt;/strong&gt;</tspan></text>
+      <text x="571" y="192"><tspan fill="#A899D4">&lt;/p&gt;</tspan></text>
+      <text x="571" y="232"><tspan fill="#A899D4">&lt;p&gt;</tspan>Lorem ipsum dolor<tspan fill="#A899D4">&lt;/p&gt;</tspan></text>
+    </g>
+
+    <!-- Stats below -->
+    <g transform="translate(555, 470)">
+      <text x="0" y="0" fill="#9590A8" font-size="11" letter-spacing="1.5">RESULT</text>
+      <g font-size="13">
+        <text x="0" y="24" fill="#9590A8">Original size</text>
+        <text x="200" y="24" fill="#C4BFDA" text-anchor="end" font-family="ui-monospace, monospace">487 chars</text>
+        <text x="0" y="46" fill="#9590A8">Cleaned size</text>
+        <text x="200" y="46" fill="#A899D4" text-anchor="end" font-family="ui-monospace, monospace">68 chars</text>
+        <text x="0" y="68" fill="#9590A8">Reduction</text>
+        <text x="200" y="68" fill="#7C5CBF" text-anchor="end" font-family="ui-monospace, monospace" font-weight="600">−86%</text>
+      </g>
+    </g>
+
+    <!-- Run button -->
+    <g transform="translate(20, 600)">
+      <rect width="200" height="40" rx="8" fill="#221D32" stroke="#4A4260"/>
+      <circle cx="20" cy="20" r="6" fill="none" stroke="#A899D4" stroke-width="1.6"/>
+      <line x1="20" y1="14" x2="20" y2="26" stroke="#A899D4" stroke-width="1.6"/>
+      <line x1="14" y1="20" x2="26" y2="20" stroke="#A899D4" stroke-width="1.6"/>
+      <text x="42" y="25" fill="#A899D4" font-size="13" font-weight="600">Run test cleanup</text>
+    </g>
+
+    <!-- Tip -->
+    <g transform="translate(240, 612)">
+      <text x="0" y="14" fill="#9590A8" font-size="12">Tip — change the cleaning level above and re-run to compare outputs.</text>
+    </g>
+  </g>
+
+</svg>

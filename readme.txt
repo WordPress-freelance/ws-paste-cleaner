@@ -20,7 +20,7 @@ WS Paste Cleaner intercepts paste events from Microsoft Word and removes the par
 * Three cleaning levels: Light, Moderate, Aggressive
 * Built-in test zone to preview how content will be cleaned before pasting
 * Local usage statistics (no remote tracking)
-* No external API calls, no third-party services, no telemetry
+* No outbound API calls; cleaning happens entirely on your own server
 * Fully translatable
 
 **Cleaning levels**
@@ -29,9 +29,9 @@ WS Paste Cleaner intercepts paste events from Microsoft Word and removes the par
 * **Moderate** *(recommended)* — Strips all Word markup (classes, inline styles, span/font wrappers) while preserving semantic structure: headings, lists, links, strong/em.
 * **Aggressive** — Plain text only. Removes all HTML and rebuilds the content as paragraphs.
 
-**Privacy**
+**Source code**
 
-WS Paste Cleaner does not contact any external server. All cleaning is performed locally on your WordPress installation. Usage statistics are stored as a single counter in your own database and never leave your site.
+The full source code is available at https://github.com/WordPress-freelance/ws-paste-cleaner — no build step is required, the plugin ships ready to run.
 
 == Installation ==
 
@@ -58,15 +58,35 @@ Cleanup hooks into native WordPress paste events. Page builders that use their o
 
 The Moderate level (default) preserves headings, lists, links, bold and italic. Only Word-specific noise is removed. Use Light if you want to be even more conservative, or Aggressive if you want plain text only.
 
-= Does the plugin send my content anywhere? =
+= Does the plugin send my content to any external server? =
 
-No. All cleaning is performed locally. The plugin makes no outbound HTTP requests.
+No. All HTML cleaning is performed locally on your WordPress installation by a PHP class. The pasted content never leaves your server. See the "External services" section below for the only exception (Google Fonts on the settings page UI).
+
+= Where are the usage statistics stored? =
+
+In the `wp_options` table on your own database, as a single integer counter. Nothing is sent anywhere.
+
+== External services ==
+
+This plugin uses one external service:
+
+**Google Fonts**
+
+The plugin's settings page (Settings → WS Paste Cleaner) loads two web fonts (Lora and Inter) from `fonts.googleapis.com` to render the WebStrategy admin design. This request is only made when an administrator opens the plugin's settings page; it never runs on the front end of the site or for visitors.
+
+* What is sent: the standard request a browser makes to load a font (URL, user agent, IP address) — same as any site that uses Google Fonts.
+* When: only when an administrator visits the plugin's settings page in `/wp-admin/`.
+* Service provider: Google LLC.
+* Terms of Service: https://policies.google.com/terms
+* Privacy Policy: https://policies.google.com/privacy
+
+No content typed into the WordPress editor is ever transmitted to Google or any other third party.
 
 == Screenshots ==
 
 1. Settings page with the three cleaning levels and the live test zone.
-2. Before/after comparison: raw Word HTML on the left, cleaned output on the right.
-3. Usage statistics card showing the number of cleanups performed.
+2. Before/after preview: raw Word HTML on the left, cleaned output on the right.
+3. Statistics card showing the number of cleanups performed locally.
 
 == Changelog ==
 
