@@ -1,0 +1,623 @@
+/**
+ * WS Paste Cleaner — admin styles.
+ *
+ * All rules are scoped under the .ws-paste-cleaner-page body class so they
+ * never leak into other admin screens. Uses the WebStrategy palette
+ * (see charte.md): dark base + violet accent, Lora headings + Inter body.
+ *
+ * Colour values are expressed via CSS custom properties on the wrap
+ * element (NOT :root) — keeping the scope clean and Avada-safe.
+ */
+
+.ws-paste-cleaner-wrap {
+	/* Backgrounds */
+	--bg:        #14121C;
+	--bg-alt:    #1A1724;
+	--bg-deep:   #221D32;
+	/* Violets */
+	--accent:    #7C5CBF;
+	--accent-m:  #9B8EC4;
+	--accent-l:  #A899D4;
+	/* Text */
+	--t1:        #F0EDE8; /* primary / headings / button text */
+	--t2:        #C4BFDA; /* secondary / labels */
+	--t3:        #9590A8; /* body */
+	--t4:        #4A4260; /* breadcrumbs / fine notes only */
+	/* Borders */
+	--bd:        #2E2B38;
+	--bd-acc:    #4A4260;
+
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	color: var(--t3);
+	background: var(--bg);
+	min-height: 100vh;
+	padding: 32px 40px 60px;
+	box-sizing: border-box;
+	margin: 0 -20px 0 -20px; /* eat the WP admin gutter */
+}
+
+/* ─── Header ──────────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-header {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	padding-bottom: 24px;
+	border-bottom: 1px solid var(--bd);
+	margin-bottom: 32px;
+}
+
+.ws-paste-cleaner-wrap .ws-logo {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.ws-paste-cleaner-wrap .ws-logo-img {
+	width: 40px;
+	height: auto;
+	display: block;
+}
+
+.ws-paste-cleaner-wrap .ws-title {
+	font-family: 'Lora', Georgia, serif;
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--t1);
+	letter-spacing: 0.5px;
+}
+
+.ws-paste-cleaner-wrap .ws-page-title {
+	font-family: 'Lora', Georgia, serif;
+	font-size: 28px;
+	font-weight: 600;
+	color: var(--t1);
+	margin: 0;
+	display: flex;
+	align-items: baseline;
+	gap: 16px;
+}
+
+.ws-paste-cleaner-wrap .ws-page-title span {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	color: var(--t3);
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+}
+
+/* ─── Notices ─────────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-notice {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 18px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+	font-size: 14px;
+}
+
+.ws-paste-cleaner-wrap .ws-notice svg {
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	fill: none;
+}
+
+.ws-paste-cleaner-wrap .ws-notice-success {
+	background: rgba( 124, 92, 191, 0.12 );
+	border: 1px solid var(--accent);
+	color: var(--accent-l);
+}
+
+/* ─── Layout grid ─────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-grid {
+	display: grid;
+	grid-template-columns: 1fr 320px;
+	gap: 28px;
+	align-items: start;
+}
+
+@media (max-width: 1100px) {
+	.ws-paste-cleaner-wrap .ws-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ─── Cards ───────────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-card {
+	background: var(--bg-alt);
+	border: 1px solid var(--bd);
+	border-radius: 12px;
+	margin-bottom: 24px;
+	overflow: hidden;
+}
+
+.ws-paste-cleaner-wrap .ws-card-accent {
+	background: var(--bg-deep);
+	border-color: var(--bd-acc);
+}
+
+.ws-paste-cleaner-wrap .ws-card-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 18px 22px;
+	border-bottom: 1px solid var(--bd);
+	font-family: 'Lora', Georgia, serif;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--t1);
+}
+
+.ws-paste-cleaner-wrap .ws-card-head svg {
+	width: 18px;
+	height: 18px;
+	stroke: var(--accent-m);
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	fill: none;
+}
+
+.ws-paste-cleaner-wrap .ws-card-body {
+	padding: 22px;
+}
+
+.ws-paste-cleaner-wrap .ws-card-body p {
+	color: var(--t3);
+	font-size: 14px;
+	line-height: 1.7;
+	margin: 0 0 12px 0;
+}
+
+.ws-paste-cleaner-wrap .ws-card-body p:last-child {
+	margin-bottom: 0;
+}
+
+.ws-paste-cleaner-wrap .ws-card-body code {
+	background: var(--bg-deep);
+	color: var(--accent-l);
+	padding: 2px 6px;
+	border-radius: 4px;
+	font-size: 12px;
+	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.ws-paste-cleaner-wrap .ws-card-body strong {
+	color: var(--t2);
+}
+
+/* ─── Stat ────────────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-stat {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 8px 0;
+}
+
+.ws-paste-cleaner-wrap .ws-stat-label {
+	font-size: 13px;
+	color: var(--t3);
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.ws-paste-cleaner-wrap .ws-stat-value {
+	font-family: 'Lora', Georgia, serif;
+	font-size: 36px;
+	font-weight: 700;
+	color: var(--accent-l);
+	line-height: 1;
+}
+
+.ws-paste-cleaner-wrap .ws-stat-note {
+	font-size: 12px;
+	color: var(--t3);
+	margin-top: 8px;
+}
+
+/* ─── Form sections ───────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-form-section {
+	margin-bottom: 28px;
+}
+
+.ws-paste-cleaner-wrap .ws-form-section:last-child {
+	margin-bottom: 0;
+}
+
+.ws-paste-cleaner-wrap .ws-form-section-title {
+	font-family: 'Lora', Georgia, serif;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--t1);
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin: 0 0 14px 0;
+}
+
+.ws-paste-cleaner-wrap .ws-help {
+	font-size: 13px;
+	color: var(--t3);
+	margin: 8px 0 0 0;
+	line-height: 1.6;
+}
+
+/* ─── Toggle ──────────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-toggle {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.ws-paste-cleaner-wrap .ws-toggle input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.ws-paste-cleaner-wrap .ws-toggle-slider {
+	position: relative;
+	width: 44px;
+	height: 24px;
+	background: var(--bd);
+	border-radius: 12px;
+	transition: background 0.2s ease;
+	flex-shrink: 0;
+}
+
+.ws-paste-cleaner-wrap .ws-toggle-slider::after {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 18px;
+	height: 18px;
+	background: var(--t1);
+	border-radius: 50%;
+	transition: transform 0.2s ease;
+}
+
+.ws-paste-cleaner-wrap .ws-toggle input:checked + .ws-toggle-slider {
+	background: var(--accent);
+}
+
+.ws-paste-cleaner-wrap .ws-toggle input:checked + .ws-toggle-slider::after {
+	transform: translateX(20px);
+}
+
+.ws-paste-cleaner-wrap .ws-toggle-label {
+	font-size: 14px;
+	color: var(--t2);
+}
+
+/* ─── Radio group ─────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-radio-group {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.ws-paste-cleaner-wrap .ws-radio {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 14px 16px;
+	border: 1px solid var(--bd);
+	border-radius: 10px;
+	cursor: pointer;
+	transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ws-paste-cleaner-wrap .ws-radio:hover {
+	border-color: var(--bd-acc);
+	background: rgba( 124, 92, 191, 0.04 );
+}
+
+.ws-paste-cleaner-wrap .ws-radio input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.ws-paste-cleaner-wrap .ws-radio-mark {
+	width: 18px;
+	height: 18px;
+	border: 2px solid var(--bd-acc);
+	border-radius: 50%;
+	flex-shrink: 0;
+	margin-top: 2px;
+	position: relative;
+	transition: border-color 0.2s ease;
+}
+
+.ws-paste-cleaner-wrap .ws-radio input:checked + .ws-radio-mark {
+	border-color: var(--accent);
+}
+
+.ws-paste-cleaner-wrap .ws-radio input:checked + .ws-radio-mark::after {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 8px;
+	height: 8px;
+	background: var(--accent);
+	border-radius: 50%;
+}
+
+.ws-paste-cleaner-wrap .ws-radio:has(input:checked) {
+	border-color: var(--accent);
+	background: rgba( 124, 92, 191, 0.06 );
+}
+
+.ws-paste-cleaner-wrap .ws-radio-content strong {
+	display: inline-block;
+	font-family: 'Lora', Georgia, serif;
+	font-size: 15px;
+	color: var(--t1);
+	margin-bottom: 4px;
+}
+
+.ws-paste-cleaner-wrap .ws-radio-content p {
+	margin: 4px 0 0 0;
+	font-size: 13px;
+	color: var(--t3);
+	line-height: 1.5;
+}
+
+.ws-paste-cleaner-wrap .ws-badge {
+	display: inline-block;
+	background: var(--accent);
+	color: var(--t1);
+	font-size: 10px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	padding: 2px 8px;
+	border-radius: 10px;
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 22px;
+	border: none;
+	border-radius: 8px;
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.ws-paste-cleaner-wrap .ws-btn:active {
+	transform: translateY(1px);
+}
+
+.ws-paste-cleaner-wrap .ws-btn svg {
+	width: 16px;
+	height: 16px;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	fill: none;
+}
+
+.ws-paste-cleaner-wrap .ws-btn-primary {
+	background: var(--accent);
+	color: var(--t1);
+}
+
+.ws-paste-cleaner-wrap .ws-btn-primary:hover {
+	opacity: 0.9;
+}
+
+.ws-paste-cleaner-wrap .ws-btn-secondary {
+	background: var(--bg-deep);
+	color: var(--accent-l);
+	border: 1px solid var(--bd-acc);
+}
+
+.ws-paste-cleaner-wrap .ws-btn-secondary:hover {
+	border-color: var(--accent);
+}
+
+/* ─── Test zone ───────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-test-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+	margin: 16px 0;
+}
+
+@media (max-width: 800px) {
+	.ws-paste-cleaner-wrap .ws-test-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ws-paste-cleaner-wrap .ws-test-col {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ws-paste-cleaner-wrap .ws-test-label {
+	font-size: 12px;
+	color: var(--t2);
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+/*
+ * WordPress admin overrides input/textarea styles aggressively.
+ * Hex direct + !important + box-shadow:none — never CSS variables for
+ * input colours per project convention.
+ */
+.ws-paste-cleaner-wrap .ws-test-textarea {
+	min-height: 180px;
+	padding: 12px 14px !important;
+	background: #14121C !important;
+	border: 1px solid #2E2B38 !important;
+	border-radius: 8px !important;
+	color: #C4BFDA !important;
+	font-family: ui-monospace, 'SF Mono', Menlo, monospace !important;
+	font-size: 13px !important;
+	line-height: 1.5 !important;
+	resize: vertical;
+	box-shadow: none !important;
+	outline: none !important;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.ws-paste-cleaner-wrap .ws-test-textarea:focus {
+	border-color: #7C5CBF !important;
+	box-shadow: none !important;
+	outline: none !important;
+}
+
+/* ─── Sidebar ─────────────────────────────────────────────────────── */
+
+.ws-paste-cleaner-wrap .ws-sidebar-card {
+	background: var(--bg-alt);
+	border: 1px solid var(--bd);
+	border-radius: 12px;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-card-accent {
+	background: linear-gradient( 135deg, var(--bg-deep) 0%, var(--bg-alt) 100% );
+	border-color: var(--bd-acc);
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-head {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 18px 20px;
+	border-bottom: 1px solid var(--bd);
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-info {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-title {
+	font-family: 'Lora', Georgia, serif;
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--t1);
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-sub {
+	font-size: 12px;
+	color: var(--t3);
+	font-family: ui-monospace, monospace;
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-head-title {
+	font-family: 'Lora', Georgia, serif;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--t1);
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-body {
+	padding: 18px 20px;
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-body p {
+	font-size: 13px;
+	color: var(--t3);
+	line-height: 1.6;
+	margin: 12px 0 0 0;
+}
+
+.ws-paste-cleaner-wrap .ws-pill {
+	display: inline-block;
+	background: var(--bg-deep);
+	color: var(--accent-l);
+	border: 1px solid var(--bd-acc);
+	font-size: 11px;
+	font-weight: 600;
+	padding: 4px 10px;
+	border-radius: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.ws-paste-cleaner-wrap .ws-steps {
+	margin: 0;
+	padding: 0 0 0 20px;
+	color: var(--t3);
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+.ws-paste-cleaner-wrap .ws-steps li {
+	margin-bottom: 6px;
+}
+
+.ws-paste-cleaner-wrap .ws-steps li::marker {
+	color: var(--accent);
+	font-weight: 600;
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-links {
+	display: flex;
+	flex-direction: column;
+	padding: 8px 0;
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-link {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 20px;
+	color: var(--t2);
+	text-decoration: none;
+	font-size: 13px;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-link:hover {
+	background: var(--bg-deep);
+	color: var(--accent-l);
+}
+
+.ws-paste-cleaner-wrap .ws-sidebar-link svg {
+	width: 16px;
+	height: 16px;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	fill: none;
+	flex-shrink: 0;
+}
