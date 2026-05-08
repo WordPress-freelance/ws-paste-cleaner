@@ -1,0 +1,68 @@
+name: Deploy to wordpress.org
+
+# This workflow pushes the plugin to the wordpress.org SVN repository
+# whenever a GitHub release is published. It also exposes a manual
+# trigger (workflow_dispatch) — useful for the first deploy or for
+# re-publishing after a botched run.
+#
+# Required secrets (Settings → Secrets and variables → Actions):
+#   - SVN_USERNAME : your wordpress.org username (the one that owns the plugin)
+#   - SVN_PASSWORD : the wordpress.org password — NOT a 2FA app password, and
+#                    NOT your GitHub PAT. If 2FA is enabled on wordpress.org,
+#                    generate an application password specifically for SVN
+#                    (Profile → Account → Application Passwords).
+#
+# Until those two secrets are configured, the job will fail at the deploy
+# step with a clear "missing credentials" error — that's expected.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to deploy (e.g. v1.0.0). Must already be pushed.'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Push to wordpress.org SVN
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # When triggered manually, check out the requested tag instead of HEAD.
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - name: Verify wordpress.org credentials are configured
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          if [ -z "$SVN_USERNAME" ] || [ -z "$SVN_PASSWORD" ]; then
+            echo "::error::SVN_USERNAME and SVN_PASSWORD secrets are not configured."
+            echo "Add them under Settings → Secrets and variables → Actions before retrying."
+            exit 1
+          fi
+          echo "Credentials present — proceeding with deploy."
+
+      - name: WordPress Plugin Deploy
+        id: deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          generate-zip: true
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: ws-paste-cleaner
+          ASSETS_DIR: .wordpress-org
+          BUILD_DIR: .
+
+      - name: Attach generated ZIP to the GitHub release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.deploy.outputs.zip-path }}

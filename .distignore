@@ -1,0 +1,45 @@
+# Files and directories listed here are excluded when the
+# 10up/action-wordpress-plugin-deploy action copies BUILD_DIR into the SVN
+# /trunk/. Anything not listed here ends up in the published ZIP that
+# end-users download from wordpress.org/plugins/ws-paste-cleaner/.
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# CI / build tooling
+.github
+.distignore
+.editorconfig
+
+# WordPress.org directory assets (handled separately via ASSETS_DIR)
+.wordpress-org
+
+# Composer / dev dependencies
+composer.json
+composer.lock
+vendor
+
+# Tests
+tests
+phpunit.xml
+phpunit.xml.dist
+.phpunit.result.cache
+coverage
+
+# Node / build artefacts
+node_modules
+package.json
+package-lock.json
+*.zip
+*.log
+
+# OS / IDE noise
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+*.swp
+*.bak
+*.orig
