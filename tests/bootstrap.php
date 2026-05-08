@@ -106,6 +106,56 @@ if ( ! function_exists( '_e' ) ) {
 	function _e( $text, $domain = null ) { echo $text; }
 }
 
+// URL helpers — return predictable strings so assertions can rely on them.
+if ( ! function_exists( 'plugin_dir_url' ) ) {
+	function plugin_dir_url( $file ) {
+		return 'http://example.test/wp-content/plugins/ws-paste-cleaner/' . basename( dirname( $file ) ) . '/';
+	}
+}
+if ( ! function_exists( 'plugin_dir_path' ) ) {
+	function plugin_dir_path( $file ) { return dirname( $file ) . '/'; }
+}
+if ( ! function_exists( 'plugin_basename' ) ) {
+	function plugin_basename( $file ) { return basename( dirname( $file ) ) . '/' . basename( $file ); }
+}
+if ( ! function_exists( 'admin_url' ) ) {
+	function admin_url( $path = '' ) { return 'http://example.test/wp-admin/' . ltrim( (string) $path, '/' ); }
+}
+if ( ! function_exists( 'add_query_arg' ) ) {
+	function add_query_arg( $args, $url ) {
+		return $url . ( strpos( $url, '?' ) !== false ? '&' : '?' ) . http_build_query( $args );
+	}
+}
+
+// Enqueue / nonce no-ops — return null/empty string. Tests that need to
+// assert these were called should use WP_Mock::userFunction() locally.
+if ( ! function_exists( 'wp_enqueue_script' ) ) {
+	function wp_enqueue_script( ...$args ) { return null; }
+}
+if ( ! function_exists( 'wp_enqueue_style' ) ) {
+	function wp_enqueue_style( ...$args ) { return null; }
+}
+if ( ! function_exists( 'wp_localize_script' ) ) {
+	function wp_localize_script( ...$args ) { return true; }
+}
+if ( ! function_exists( 'wp_create_nonce' ) ) {
+	function wp_create_nonce( $action = -1 ) { return 'test-nonce'; }
+}
+if ( ! function_exists( 'wp_die' ) ) {
+	function wp_die( $message = '', $title = '', $args = array() ) {
+		throw new \RuntimeException( 'wp_die: ' . ( is_string( $message ) ? $message : '' ) );
+	}
+}
+if ( ! function_exists( 'wp_safe_redirect' ) ) {
+	function wp_safe_redirect( $location, $status = 302 ) { return true; }
+}
+if ( ! function_exists( 'load_plugin_textdomain' ) ) {
+	function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path = false ) { return true; }
+}
+if ( ! function_exists( 'number_format_i18n' ) ) {
+	function number_format_i18n( $number, $decimals = 0 ) { return number_format( (float) $number, (int) $decimals ); }
+}
+
 // ─── 4. Stub WP classes ───────────────────────────────────────────
 
 if ( ! class_exists( 'WP_Error' ) ) {
