@@ -116,6 +116,16 @@ class WS_Paste_Cleaner {
 		// Avada / third-party theme white-frame fix.
 		$this->loader->add_filter( 'admin_body_class',      $plugin_admin, 'add_admin_body_class' );
 		$this->loader->add_action( 'admin_head',            $plugin_admin, 'inline_reset_css' );
+
+		// Plugins-list "More plugins" link (filter is plugin-file specific).
+		$plugin_basename = defined( 'WS_PASTE_CLEANER_PLUGIN_FILE' )
+			? plugin_basename( WS_PASTE_CLEANER_PLUGIN_FILE )
+			: 'ws-paste-cleaner/ws-paste-cleaner.php';
+		$this->loader->add_filter(
+			'plugin_action_links_' . $plugin_basename,
+			$plugin_admin,
+			'add_plugin_action_links'
+		);
 	}
 
 	/**

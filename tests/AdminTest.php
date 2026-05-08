@@ -205,4 +205,44 @@ class AdminTest extends \WP_Mock\Tools\TestCase {
 
 		$this->assertSame( '', $out );
 	}
+
+	// ─── add_plugin_action_links ─────────────────────────────────
+
+	public function test_action_links_prepends_more_plugins_link(): void {
+
+		$existing = array(
+			'deactivate' => '<a href="?action=deactivate">Deactivate</a>',
+		);
+
+		$out = $this->admin->add_plugin_action_links( $existing );
+
+		$this->assertCount( 2, $out );
+		// Our link is first.
+		$this->assertSame( 0, array_key_first( $out ) );
+		$this->assertStringContainsString( 'plugin.wordpress-freelance.com', $out[0] );
+		$this->assertStringContainsString( 'More plugins', $out[0] );
+		$this->assertStringContainsString( 'target="_blank"', $out[0] );
+		$this->assertStringContainsString( 'rel="noopener"', $out[0] );
+		// Existing links survive.
+		$this->assertSame( $existing['deactivate'], $out['deactivate'] );
+	}
+
+	public function test_action_links_handles_non_array_input_defensively(): void {
+
+		// Some plugins / themes pass garbage through the filter; we must
+		// return a usable array regardless.
+		$out = $this->admin->add_plugin_action_links( null );
+
+		$this->assertIsArray( $out );
+		$this->assertCount( 1, $out );
+		$this->assertStringContainsString( 'plugin.wordpress-freelance.com', $out[0] );
+	}
+
+	public function test_action_links_url_is_https_and_safe(): void {
+
+		$out = $this->admin->add_plugin_action_links( array() );
+		$this->assertStringContainsString( 'https://plugin.wordpress-freelance.com/', $out[0] );
+		// No raw URL injection — escaped through esc_url().
+		$this->assertStringNotContainsString( 'javascript:', $out[0] );
+	}
 }

@@ -32,6 +32,7 @@ if ( ! defined( 'WPINC' ) ) {
  */
 define( 'WS_PASTE_CLEANER_VERSION', '1.0.0' );
 define( 'WS_PASTE_CLEANER_PLUGIN_NAME', 'ws-paste-cleaner' );
+define( 'WS_PASTE_CLEANER_PLUGIN_FILE', __FILE__ );
 define( 'WS_PASTE_CLEANER_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WS_PASTE_CLEANER_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 

@@ -260,4 +260,33 @@ class WS_Paste_Cleaner_Admin {
 		}
 		</style>';
 	}
+
+	/**
+	 * Filter callback for `plugin_action_links_<plugin-file>`.
+	 *
+	 * Prepends a "More plugins" link pointing to the WebStrategy plugin
+	 * directory on the plugins.php list page (next to "Activate / Deactivate").
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  array $links Existing action links provided by core.
+	 * @return array        Modified links array.
+	 */
+	public function add_plugin_action_links( $links ) {
+
+		if ( ! is_array( $links ) ) {
+			$links = array();
+		}
+
+		$more = sprintf(
+			'<a href="%s" target="_blank" rel="noopener">%s</a>',
+			esc_url( 'https://plugin.wordpress-freelance.com/' ),
+			esc_html__( 'More plugins', 'ws-paste-cleaner' )
+		);
+
+		// Prepend so the link appears first, in front of "Deactivate".
+		array_unshift( $links, $more );
+
+		return $links;
+	}
 }
