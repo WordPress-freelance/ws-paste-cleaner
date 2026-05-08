@@ -33,6 +33,8 @@ WS Paste Cleaner intercepts paste events from Microsoft Word and removes the par
 
 The full source code is available at https://github.com/WordPress-freelance/ws-paste-cleaner — no build step is required, the plugin ships ready to run.
 
+Continuous integration runs the full PHPUnit suite on PHP 7.4, 8.0, 8.1 and 8.2 on every push: https://github.com/WordPress-freelance/ws-paste-cleaner/actions
+
 == Installation ==
 
 1. Upload the `ws-paste-cleaner` folder to the `/wp-content/plugins/` directory, or install via Plugins → Add New.
