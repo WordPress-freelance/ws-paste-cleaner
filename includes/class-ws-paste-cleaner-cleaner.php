@@ -31,11 +31,18 @@ class WS_Paste_Cleaner_Cleaner {
 	/**
 	 * Clean HTML based on the chosen level.
 	 *
+	 * Every branch routes its output through kses_output(), which applies
+	 * wp_kses_post as a final defensive filter. Whatever the entry point
+	 * (AJAX handler, direct call from a partial, future extension points),
+	 * nothing dangerous can leak back to the editor: <script>, <iframe>,
+	 * on* handlers, javascript: URIs, and other executable payloads all
+	 * get stripped in the last mile.
+	 *
 	 * @since  1.0.0
 	 *
 	 * @param  string $html  The HTML to clean.
 	 * @param  string $level The cleaning level (light, moderate, aggressive).
-	 * @return string        The cleaned HTML.
+	 * @return string        The cleaned, kses-filtered HTML.
 	 */
 	public static function clean_html( $html, $level = self::LEVEL_MODERATE ) {
 
@@ -45,15 +52,44 @@ class WS_Paste_Cleaner_Cleaner {
 
 		switch ( $level ) {
 			case self::LEVEL_LIGHT:
-				return self::clean_light( $html );
+				return self::kses_output( self::clean_light( $html ) );
 
 			case self::LEVEL_AGGRESSIVE:
-				return self::clean_aggressive( $html );
+				// Aggressive already strips all tags and rebuilds paragraphs
+				// via esc_html(); the kses pass is redundant but harmless.
+				return self::kses_output( self::clean_aggressive( $html ) );
 
 			case self::LEVEL_MODERATE:
 			default:
-				return self::clean_moderate( $html );
+				return self::kses_output( self::clean_moderate( $html ) );
 		}
+	}
+
+	/**
+	 * Final safety net: strip anything wp_kses_post would refuse
+	 * (<script>, <iframe>, on* handlers, javascript: URIs, dangerous
+	 * data: schemes, style attributes with expression(), etc.).
+	 *
+	 * Called on every branch return in clean_html().
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  string $html
+	 * @return string
+	 */
+	private static function kses_output( $html ) {
+
+		if ( '' === $html ) {
+			return '';
+		}
+
+		// wp_kses_post is available in every recent WP version but keep
+		// the guard for direct-execution paths (unit tests, edge cases).
+		if ( ! function_exists( 'wp_kses_post' ) ) {
+			return $html;
+		}
+
+		return wp_kses_post( $html );
 	}
 
 	/**

@@ -6,6 +6,9 @@ class CleanerTest extends \WP_Mock\Tools\TestCase {
 
 	public function setUp(): void {
 		\WP_Mock::setUp();
+		\WP_Mock::userFunction( 'wp_kses_post' )->andReturnUsing( function ( $html ) {
+			return $this->stub_wp_kses_post( (string) $html );
+		} );
 	}
 
 	public function tearDown(): void {
@@ -197,5 +200,82 @@ class CleanerTest extends \WP_Mock\Tools\TestCase {
 		$this->assertStringNotContainsString( 'class=',   $out );
 		$this->assertStringContainsString( 'First paragraph', $out );
 		$this->assertStringContainsString( 'Second paragraph', $out );
+	}
+
+	// ─── Defense in depth: wp_kses_post final pass ───────────────
+	//
+	// Even if the Word paste contains active HTML (script, iframe,
+	// on* handlers, javascript:), the cleaner output must never
+	// re-inject any of it into the editor.
+	//
+	// The wp_kses_post mock is installed in setUp() above; the
+	// surrogate below mirrors what the real wp_kses_post filters
+	// out (script, iframe, on* handlers, javascript: URIs) for the
+	// scope of these tests.
+
+	/**
+	 * Minimal wp_kses_post surrogate for tests.
+	 */
+	private function stub_wp_kses_post( string $html ): string {
+		$html = preg_replace( '#<script\b[^>]*>.*?</script>#is', '', $html );
+		$html = preg_replace( '#<iframe\b[^>]*>.*?</iframe>#is', '', $html );
+		$html = preg_replace( '#<iframe\b[^>]*/?>#i', '', $html );
+		$html = preg_replace( '#\son[a-z]+\s*=\s*"[^"]*"#i', '', $html );
+		$html = preg_replace( "#\son[a-z]+\s*=\s*'[^']*'#i", '', $html );
+		$html = preg_replace( '#href\s*=\s*(["\'])\s*javascript:[^"\']*\1#i', 'href=$1#$1', $html );
+		return $html;
+	}
+
+	public function test_kses_strips_script_in_light_output(): void {
+		$input = '<p>Hello</p><script>alert(1)</script>';
+		$out   = WS_Paste_Cleaner_Cleaner::clean_html( $input, 'light' );
+		$this->assertStringNotContainsString( '<script', $out );
+		$this->assertStringNotContainsString( 'alert(1)', $out );
+	}
+
+	public function test_kses_strips_script_in_moderate_output(): void {
+		$input = '<p>Hello</p><script>alert(1)</script>';
+		$out   = WS_Paste_Cleaner_Cleaner::clean_html( $input, 'moderate' );
+		$this->assertStringNotContainsString( '<script', $out );
+		$this->assertStringNotContainsString( 'alert(1)', $out );
+	}
+
+	public function test_kses_strips_iframe_in_moderate_output(): void {
+		$input = '<p>Before</p><iframe src="http://evil.example/xss"></iframe><p>After</p>';
+		$out   = WS_Paste_Cleaner_Cleaner::clean_html( $input, 'moderate' );
+		$this->assertStringNotContainsString( '<iframe',     $out );
+		$this->assertStringNotContainsString( 'evil.example', $out );
+		$this->assertStringContainsString( 'Before', $out );
+		$this->assertStringContainsString( 'After',  $out );
+	}
+
+	public function test_kses_strips_on_handlers_from_light_output(): void {
+		// Light keeps class attributes; make sure it can't keep onclick.
+		$input = '<p class="custom" onclick="alert(1)">Hello</p>';
+		$out   = WS_Paste_Cleaner_Cleaner::clean_html( $input, 'light' );
+		$this->assertStringNotContainsString( 'onclick', $out );
+		$this->assertStringNotContainsString( 'alert(1)', $out );
+		$this->assertStringContainsString( 'Hello', $out );
+	}
+
+	public function test_kses_neutralises_javascript_uri_in_moderate_output(): void {
+		$input = '<a href="javascript:alert(1)">Click</a>';
+		$out   = WS_Paste_Cleaner_Cleaner::clean_html( $input, 'moderate' );
+		$this->assertStringNotContainsString( 'javascript:', $out );
+	}
+
+	public function test_kses_preserves_safe_content_in_moderate_output(): void {
+		$input = '<h2>Title</h2><p><strong>Hello</strong> <a href="https://example.com">link</a></p>';
+		$out   = WS_Paste_Cleaner_Cleaner::clean_html( $input, 'moderate' );
+		$this->assertStringContainsString( '<h2>', $out );
+		$this->assertStringContainsString( '<strong>Hello</strong>', $out );
+		$this->assertStringContainsString( 'href="https://example.com"', $out );
+	}
+
+	public function test_kses_still_runs_in_aggressive_output(): void {
+		$input = '<p>Before</p><script>alert(1)</script>';
+		$out   = WS_Paste_Cleaner_Cleaner::clean_html( $input, 'aggressive' );
+		$this->assertStringNotContainsString( '<script', $out );
+		$this->assertStringNotContainsString( 'alert(1)', $out );
 	}
 }

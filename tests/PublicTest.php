@@ -11,6 +11,13 @@ class PublicTest extends \WP_Mock\Tools\TestCase {
 		\WP_Mock::setUp();
 		$this->public = new WS_Paste_Cleaner_Public( 'ws-paste-cleaner', '1.0.0' );
 		$_POST = array();
+
+		// Cleaner now runs every branch through wp_kses_post as a final
+		// defensive filter. Stub it in tests so the cleaner does not
+		// fatal-error on an undefined function.
+		\WP_Mock::userFunction( 'wp_kses_post' )->andReturnUsing( function ( $html ) {
+			return (string) $html;
+		} );
 	}
 
 	public function tearDown(): void {

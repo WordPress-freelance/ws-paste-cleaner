@@ -11,7 +11,7 @@
  * Plugin Name:       WS Paste Cleaner
  * Plugin URI:        https://wordpress-freelance.com/ws-paste-cleaner
  * Description:       Automatically strips Microsoft Word formatting on paste in the WordPress editor. Compatible with Gutenberg and the Classic Editor.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 5.6
  * Requires PHP:      7.4
  * Author:            WebStrategy
@@ -30,7 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Currently plugin version.
  */
-define( 'WS_PASTE_CLEANER_VERSION', '1.0.0' );
+define( 'WS_PASTE_CLEANER_VERSION', '1.0.1' );
 define( 'WS_PASTE_CLEANER_PLUGIN_NAME', 'ws-paste-cleaner' );
 define( 'WS_PASTE_CLEANER_PLUGIN_FILE', __FILE__ );
 define( 'WS_PASTE_CLEANER_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

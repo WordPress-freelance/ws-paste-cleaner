@@ -4,7 +4,7 @@ Tags: editor, paste, word, gutenberg, cleaner
 Requires at least: 5.6
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,9 @@ No content typed into the WordPress editor is ever transmitted to Google or any 
 
 == Changelog ==
 
+= 1.0.1 =
+* Security hardening: every cleaner output is now filtered through `wp_kses_post()` as a final safety net, guaranteeing that no `<script>`, `<iframe>`, `on*` handler or `javascript:` URI can ever be returned to the editor, regardless of the cleaning level.
+
 = 1.0.0 =
 * Initial release.
 * Automatic cleanup on paste in Gutenberg and TinyMCE.
@@ -100,6 +103,9 @@ No content typed into the WordPress editor is ever transmitted to Google or any 
 * Local usage statistics.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Recommended security update. Defense in depth: cleaned HTML now passes through `wp_kses_post()` before being returned to the editor.
 
 = 1.0.0 =
 First stable release.
